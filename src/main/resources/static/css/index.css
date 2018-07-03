@@ -1,0 +1,138 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    width: 100%;
+    height:100%;
+}
+body{
+    width: 100%;
+    height: 100%;
+    background-color: #F4F4F4;
+}
+h1{
+    font-size: 26px;
+    margin: 5% 1%;
+}
+.wrap{
+    width: 100%;
+}
+.c_title{
+    text-align: center;
+}
+.main{
+    width: 100%;
+    margin: 0 auto;
+}
+.c_form{
+    width: 100%;
+}
+.c_p{
+    padding: 3% 0 3% 10%;
+    background-color: white;
+    margin: 3% 0;
+}
+.c_p span {
+    color: #565656;
+    font-size: 16px;
+}
+.c_p input{
+    border: none;
+    font-size: 16px;
+    width: 72%;
+    margin-left: 24px;
+}
+#male{
+    width: 28px;
+    margin-left: 20px;
+}
+#female{
+    width: 28px;
+    margin-left: 20px;
+}
+#height{
+    margin-left: 0;
+}
+#weight{
+    margin-left: 4px;
+}
+.c_choosewrap{
+    margin: -25px 0 0 18%;
+}
+.c_choosewrap p{
+    margin: 1% 0;
+    color: #565656;
+}
+.c_choosewrap p input{
+    width: auto;
+    vertical-align: -2px;
+}
+#choosetime{
+    width: 72%;
+    font-size: 16px;
+    margin-left: 20px;
+    border: none;
+}
+.c_button{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+.c_button input{
+    -webkit-appearance:none;
+    -webkit-border-radius: 0;
+    margin: 0;
+    border: none;
+    display: inline-block;
+    padding: 14px;
+    font-size: 17px;
+}
+#submitclass{
+    width: 63%;
+    background-color: #0ba3f7;
+    color: white;
+}
+#resetclass{
+    width: 37%;
+    background-color: white;
+    color: #0ba3f7;
+}
+.c_split{
+    text-align: center;
+    font-size: 17px;
+    margin: 26px;
+}
+hr{
+    display: inline-block;
+    width: 25%;
+}
+.c_firsthr{
+    margin: 0 22px 4px 0;
+}
+.c_lasthr{
+    margin: 0 0 4px 18px;
+}
+.c_picture{
+    text-align: center;
+}
+.sub_body{
+    position: relative;
+}
+.suc_wrap{
+    width: 400px;
+    height: 339px;
+    position: absolute;margin: auto;top: 0;left: 0;right: 0;bottom: 0;
+    text-align: center;
+}
+.suc_img{
+    width: 233px;
+    height: 233px;
+}
+.suc_p{
+    font-size: 50px;
+    margin: 40px 0 0 29px;
+    letter-spacing: 5px;
+    width: 400px;
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <title>篮球报名列表</title>
+    <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/index.css}"  rel="stylesheet" />
+    <link rel="stylesheet" href="/css/themes/smoothness/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="/css/themes/base/all.css">
+    <link rel="stylesheet" href="/css/themes/gray/easyui.css">
+    <link rel="stylesheet" href="/css/themes/icon.css">
+    <script src="/js/jquery-ui/jquery.js"></script>
+    <script src="/js/jquery-ui/ui/core.js"></script>
+    <script src="/js/jquery-ui/ui/widget.js"></script>
+    <script src="/js/jquery-ui/ui/datepicker.js"></script>
+    <script src="/js/jquery-ui/ui/i18n/datepicker-zh-CN.js"></script>
+    <script src="/js/jquery-ui/jquery.easyui.min.js"></script>
+    <script src="/js/jquery-ui/ui/timepicker.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script>
+        $(function() {
+
+            $("#begintime").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+            $("#endtime").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+    </script>
+
+    <!-- 添加timepicker样式 -->
+    <style>
+        .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+        .ui-timepicker-div dl { text-align: left; }
+        .ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+        .ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+        .ui-timepicker-div td { font-size: 90%; }
+        .ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+<div class="studlist" th:unless="${#lists.isEmpty(stuList)}">
+    <table class="table table-hover table-condensed">
+        <legend>
+            <strong>学生列表</strong>
+        </legend>
+        <form action="/studentList" method="post">
+            <div style="text-align: right">报名时间：<input id="begintime" name="begintime" th:value="*{begintime}" readonly="true"/> - <input id="endtime" name="endtime" th:value="*{endtime}" readonly="true"/>
+                <input type="submit" id="submitclass" style="width: 80px" value="查询" />
+            </div>
+
+        </form>
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>学校</th>
+            <th>班级</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>手机</th>
+            <th>微信号</th>
+            <th>身高(cm)</th>
+            <th>体重(kg)</th>
+            <th>班别</th>
+            <th>报名时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="st : ${stuList}">
+            <td th:text="${st.num}"></td>
+            <td th:text="${st.school}"></td>
+            <td th:text="${st.classb}"></td>
+            <td th:text="${st.name}"></td>
+            <td th:text="${st.sexname}"></td>
+            <td th:text="${st.phone}"></td>
+            <td th:text="${st.wechatno}"></td>
+            <td th:text="${st.height}"></td>
+            <td th:text="${st.weight}"></td>
+            <td th:text="${st.choosetimestr}"></td>
+            <td th:text="${st.createtimestr}"></td>
+            <td><a th:href="@{'/delUser/' + ${st.id} }">删除</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

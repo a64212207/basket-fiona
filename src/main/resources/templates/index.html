@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>篮球报名</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+</head>
+<body>
+<div class="wrap">
+    <div class="c_title"><h1 >龙港二小篮球训练营报名</h1></div>
+    <div class="main">
+        <form action="/addUser" method="post" id="c_form" class="c_form" onsubmit="return subList()">
+            <p class="c_p"><span>学&nbsp;&nbsp;校&nbsp;<span style="color: red">*</span>: </span><input type="text" id="school" name="school" value="" onblur="removeBorder('school')"/></p>
+            <p class="c_p"><span>班&nbsp;&nbsp;级&nbsp;<span style="color: red">*</span>: </span><input type="text" id="classb" name="classb" value="" onblur="removeBorder('classb')"/></p>
+            <p class="c_p"><span>姓&nbsp;&nbsp;名&nbsp;<span style="color: red">*</span>: </span><input type="text" id="name" name="name" value="" onblur="removeBorder('name')"/></p>
+            <p class="c_p"><span>性&nbsp;&nbsp;别&nbsp;<span style="color: red">*</span>:</span>
+                <input type="radio" name="sex" id="male" value="1" checked>男
+                <input type="radio" name="sex" id="female" value="2">女
+            </p>
+            <p class="c_p"><span>手&nbsp;&nbsp;机&nbsp;<span style="color: red">*</span>: </span><input type="text" id="phone" name="phone" onkeyup="value=value.replace(/[^\d]/g,'')" ng-pattern="/[^a-zA-Z]/" onblur="removeBorder('phone')" /></p>
+            <p class="c_p"><span>微&nbsp;&nbsp;信&nbsp;: </span><input type="text" id="wechatno" name="wechatno" value="" /></p>
+            <p class="c_p"><span>身高(cm)&nbsp;<span style="color: red">*</span>: </span><input type="text" id="height" name="height" onkeyup="value=value.replace(/[^\d\.]/g,'') " ng-pattern="/[^a-zA-Z]/" onblur="removeBorder('height')"/></p>
+            <p class="c_p"><span>体重(kg)&nbsp;<span style="color: red">*</span>: </span><input type="text" id="weight" name="weight" onkeyup="value=value.replace(/[^\d\.]/g,'') " ng-pattern="/[^a-zA-Z]/" onblur="removeBorder('weight')"/></p>
+            <div class="c_p"><span>班&nbsp;&nbsp;别&nbsp;<span style="color: red">*</span>: </span>
+                <select id="choosetime" name="choosetime">
+                    <option value="1" >周一、三、五、日 16:30-18:00</option>
+                    <option value="2" >周二、四、六、日 16:30-18:00</option>
+                    <option value="3" >周一、三、五、日 19:00-20:30</option>
+                    <option value="4" >周二、四、六、日 19:00-20:30</option>
+                </select>
+                <!--<div class="c_choosewrap">-->
+                    <!--<p class="choosetime"><input type="radio" name="choosetime" value="1" checked>周一、三、五、日 16:30-18:00</p>-->
+                    <!--<p class="choosetime"><input type="radio" name="choosetime" value="2">周二、四、六、日 16:30-18:00</p>-->
+                    <!--<p class="choosetime"><input type="radio" name="choosetime" value="3">周一、三、五、日 19:00-20:30</p>-->
+                    <!--<p class="choosetime"><input type="radio" name="choosetime" value="4">周二、四、六、日 19:00-20:30</p>-->
+                <!--</div>-->
+            </div>
+            <p class="c_button"> <input type="reset" id="resetclass" value="重置" /><input type="submit" id="submitclass" value="提交" /></p>
+        </form>
+    </div>
+    <div class="c_split">
+        <hr class="c_firsthr">比赛照片<hr class="c_lasthr">
+    </div>
+    <div class="c_picture">
+        <img src="./image/bg.jpg" width="96%" height="auto">
+    </div>
+    <div style="height:50px;"></div>
+</div>
+<script src="../js/jquery-1.7.2.min.js"></script>
+<script src="../js/jquery.form.js"></script>
+<script src="../js/index.js"></script>
+</body>
+</html>
