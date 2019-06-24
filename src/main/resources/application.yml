@@ -13,9 +13,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    open-in-view: false
 logging:
  path: /var/logs/
  file: basket.log
  level:
-  root: WARN
-   org.springframework.security: DEBUG
+  root: INFO
+  org.springframework: DEBUG
