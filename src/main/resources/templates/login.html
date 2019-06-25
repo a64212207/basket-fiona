@@ -1,40 +1,47 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>龙翔青少年篮球俱乐部</title>
-    <script  src="../js/jquery-1.7.2.min.js"></script>
-    <link rel="stylesheet" href="../css/login.css">
+    <title>龙翔青少年篮球俱乐部（龙港二小训练点）</title>
+    <script  th:src="@{/js/jquery-1.7.2.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
     <script>
 
-       function submitForm(){
-           var _pwd = $("#password").val();
-           $("#password1").val($.md5(_pwd));
-           $("#loginForm").submit();
-       }
-//
-//
-//        $(document).keyup(function(event){
-//            if(event.keyCode ==13){
-//                if(event.srcElement.id == "username"){
-//                    var u = $("#username").val();
-//                    if(u != ""){
-//                        $("#password").focus();
-//                    }
-//                }else if(event.srcElement.id == "password"){
-//                    submitForm();
-//                }
-//            }
-//        });
+                function submitForm(){
+//                    var _pwd = $("#password").val();
+//                    $("#password1").val($.md5(_pwd));
+                    $("#loginForm").submit();
+                }
+        //
+        //
+        //        $(document).keyup(function(event){
+        //            if(event.keyCode ==13){
+        //                if(event.srcElement.id == "username"){
+        //                    var u = $("#username").val();
+        //                    if(u != ""){
+        //                        $("#password").focus();
+        //                    }
+        //                }else if(event.srcElement.id == "password"){
+        //                    submitForm();
+        //                }
+        //            }
+        //        });
     </script>
 </head>
 <body >
 <div class="login">
     <div class="formBox">
-        <form id="loginForm" action="/login.action">
-            <input type="text" id="username" name="userinfo.username" required="true"/>
-            <input type="password" id="password" required="true" />
-            <input type="button"  class="loginBtn" value="登录" onclick="submitForm();"/>
+        <form id="loginForm" th:action="@{/login}" method="post">
+            <div class="inputclass">
+                <input type="text" id="username" name="username" required="true"/>
+            </div>
+            <div class="inputclass">
+                <input type="password" name="password" id="password" required="true" />
+            </div>
+            <!--<div class="inputclass">-->
+                <span class="errorspan" th:if="${param.error}" th:text="账号或密码错误，请重新输入"></span>
+            <!--</div>-->
+            <input type="button"  class="loginBtn" value="" onclick="submitForm();"/>
         </form>
     </div>
 </div>

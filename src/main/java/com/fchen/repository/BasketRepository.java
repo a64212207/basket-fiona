@@ -15,4 +15,6 @@ public interface BasketRepository extends JpaRepository<Person,Long> {
 
     List<Person> findByClassbAndNameAndPhone(String classb,String name,String phone);
 
+    List<Person> findByNameAndPhone(String name,String phone);
+
 }

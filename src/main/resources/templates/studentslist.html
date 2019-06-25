@@ -47,10 +47,10 @@
             <strong>学生列表</strong>
         </legend>
         <form action="/studentList" method="post">
-            <div style="text-align: right">报名时间：<input id="begintime" name="begintime" th:value="*{begintime}" readonly="true"/> - <input id="endtime" name="endtime" th:value="*{endtime}" readonly="true"/>
+            <div style="text-align: right">报名时间：<input id="begintime" name="begintime" th:value="*{begintime}"/> - <input id="endtime" name="endtime" th:value="*{endtime}" />
                 <input type="submit" id="submitclass" style="width: 80px" value="查询" />
             </div>
-
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         </form>
         <thead>
         <tr>

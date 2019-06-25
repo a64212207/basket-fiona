@@ -3,14 +3,18 @@ package com.fchen;
 import com.fchen.bean.Person;
 import com.fchen.repository.BasketRepository;
 import com.fchen.util.DateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/")
 public class BasketController {
+    private final Logger log = LoggerFactory.getLogger(BasketController.class);
     @Autowired
     private BasketRepository basketRepository;
 
@@ -35,18 +40,19 @@ public class BasketController {
     }
 
     @RequestMapping(value = "/addUser")
-    public String formSubmit(@ModelAttribute Person person, HttpServletResponse response) throws IOException {
+    public String formSubmit(@ModelAttribute Person person, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         response.addHeader("Access-Control-Expose-Headers", "x-requested-with,content-type,CA-Token,Client-Flag");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with,content-type,CA-Token,Client-Flag,X_Requested_With");
-        List<Person> retlist = basketRepository.findByClassbAndNameAndPhone(person.getClassb(), person.getName(), person.getPhone());
+        List<Person> retlist = this.basketRepository.findByNameAndPhone(person.getName(), person.getPhone());
         if (retlist != null && retlist.size() > 0) {
             return "fail";
+        } else {
+            person.setCreatetime(new Date());
+            this.basketRepository.save(person);
+            return "success";
         }
-        person.setCreatetime(new Date());
-        basketRepository.save(person);
-        return "success";
     }
 
     /**
@@ -58,7 +64,7 @@ public class BasketController {
     public ModelAndView studentList(Model model, String begintime, String endtime) {
         Date beginDate = null;
         Date endDate = null;
-        if (begintime == null) {
+        if (begintime == null || "".equals(begintime)) {
             beginDate = DateUtil.getCurrYearFirst();
             endDate = DateUtil.getCurrYearLast();
         } else {
@@ -67,40 +73,48 @@ public class BasketController {
         }
         Sort sort = new Sort(Sort.Direction.DESC, "createtime");
 //        List<Person> retlist = basketRepository.findAll();
+        log.info("query date:{},{}",beginDate,endDate);
         List<Person> retlist = basketRepository.findByCreatetimeBetween(beginDate, endDate, sort);
-        int count = 0;
-        for (Person person : retlist) {
-            person.setNum(++count);
-            if (person.getSex() != null) {
-                if (person.getSex() == 1) {
-                    person.setSexname("男");
-                } else {
-                    person.setSexname("女");
+
+        if (!CollectionUtils.isEmpty(retlist)) {
+            log.info("student size:{}",retlist.size());
+            int count = 0;
+            for (Person person : retlist) {
+                person.setNum(++count);
+                if (person.getSex() != null) {
+                    if (person.getSex() == 1) {
+                        person.setSexname("男");
+                    } else {
+                        person.setSexname("女");
+                    }
                 }
-            }
-            if (person.getChoosetime() != null) {
-                if (person.getChoosetime() == 1) {
-                    person.setChoosetimestr("周一、三、五 16:30-18:00");
-                } else if (person.getChoosetime() == 2) {
-                    person.setChoosetimestr("周二、四、六 16:30-18:00");
-                } else if (person.getChoosetime() == 3) {
-                    person.setChoosetimestr("周一、三、五 19:00-20:30");
-                } else if (person.getChoosetime() == 4) {
-                    person.setChoosetimestr("周二、四、六 19:00-20:30");
+                if (person.getChoosetime() != null) {
+                    if (person.getChoosetime() == 1) {
+                        person.setChoosetimestr("周一、三、五 16:30-18:00");
+                    } else if (person.getChoosetime() == 2) {
+                        person.setChoosetimestr("周二、四、六 16:30-18:00");
+                    } else if (person.getChoosetime() == 3) {
+                        person.setChoosetimestr("周一、三、五 19:00-20:30");
+                    } else if (person.getChoosetime() == 4) {
+                        person.setChoosetimestr("周二、四、六 19:00-20:30");
+                    }
                 }
+                person.setCreatetimestr(DateUtil.convertDate2String(person.getCreatetime(), DateUtil.DATE_FORMAT));
             }
-            person.setCreatetimestr(DateUtil.convertDate2String(person.getCreatetime(), DateUtil.DATE_FORMAT));
+        }else{
+            retlist = Collections.EMPTY_LIST;
         }
         model.addAttribute("stuList", retlist);
         model.addAttribute("begintime", begintime);
         model.addAttribute("endtime", endtime);
+        log.info("retlist:{}",retlist.size());
         return new ModelAndView("studentslist");
     }
 
     @RequestMapping(value = "/delUser/{id}")
     public String delUser(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         basketRepository.deleteById(id);
-        response.sendRedirect("/studentList");
+        response.sendRedirect("studentList");
         return "";
     }
 

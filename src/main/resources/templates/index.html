@@ -1,16 +1,16 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-    <title>龙翔青少年篮球俱乐部报名(龙港二小训练点)</title>
+    <title>龙翔青少年篮球俱乐部（龙港二小训练点）</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css/index.css" />
 </head>
 <body>
 <div class="wrap">
-    <div class="c_title"><h1 >龙翔青少年篮球俱乐部(龙港二小训练点)</h1></div>
+    <div class="c_title"><h1 >龙翔青少年篮球俱乐部（龙港二小训练点）</h1></div>
     <div class="main">
-        <form action="/addUser" method="post" id="c_form" class="c_form" onsubmit="return subList()">
+        <form action="#" th:action="@{/addUser}" method="post" id="c_form" class="c_form" onsubmit="return subList()">
             <p class="c_p"><span>学&nbsp;&nbsp;校&nbsp;<span style="color: red">*</span>: </span><input type="text" id="school" name="school" value="" onblur="removeBorder('school')"/></p>
             <p class="c_p"><span>班&nbsp;&nbsp;级&nbsp;<span style="color: red">*</span>: </span><input type="text" id="classb" name="classb" value="" onblur="removeBorder('classb')"/></p>
             <p class="c_p"><span>姓&nbsp;&nbsp;名&nbsp;<span style="color: red">*</span>: </span><input type="text" id="name" name="name" value="" onblur="removeBorder('name')"/></p>
@@ -36,6 +36,9 @@
                     <p class="choosetime"><input type="radio" name="choosetime" value="4">周二、四、六 19:00-20:30</p>
                 </div>
             </div>
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
             <p class="c_button"> <input type="reset" id="resetclass" value="重置" /><input type="submit" id="submitclass" value="提交" /></p>
         </form>
     </div>
