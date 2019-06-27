@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -48,20 +47,25 @@ public class BasketController {
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         response.addHeader("Access-Control-Expose-Headers", "x-requested-with,content-type,CA-Token,Client-Flag");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with,content-type,CA-Token,Client-Flag,X_Requested_With");
-        try {
-            lock.tryLock(1, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        List<Person> retlist = this.basketRepository.findByNameAndPhone(person.getName().trim(), person.getPhone().trim());
-        if (retlist != null && retlist.size() > 0) {
-            return "fail";
-        } else {
-            person.setCreatetime(new Date());
-            this.basketRepository.save(person);
-            lock.unlock();
-            return "success";
-        }
+
+            if (lock.tryLock()) {
+                try {
+                    List<Person> retlist = this.basketRepository.findByNameAndPhone(person.getName().trim(), person.getPhone().trim());
+                    if (retlist != null && retlist.size() > 0) {
+                        return "fail";
+                    } else {
+                        person.setCreatetime(new Date());
+                        this.basketRepository.save(person);
+                        return "success";
+                    }
+                }finally {
+                    lock.unlock();
+                }
+            }else {
+                return "fail";
+            }
+
+
     }
 
     /**
@@ -121,10 +125,9 @@ public class BasketController {
     }
 
     @RequestMapping(value = "/delUser/{id}")
-    public String delUser(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
+    public void delUser(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         basketRepository.deleteById(id);
-        response.sendRedirect("studentList");
-        return "";
+        response.sendRedirect("/studentList");
     }
 
     @RequestMapping(value = "/login")
