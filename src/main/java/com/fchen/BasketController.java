@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Fiona on 2018/6/7.
@@ -25,6 +27,7 @@ import java.util.List;
 @RequestMapping("/")
 public class BasketController {
     private final Logger log = LoggerFactory.getLogger(BasketController.class);
+    ReentrantLock lock = new ReentrantLock();
     @Autowired
     private BasketRepository basketRepository;
 
@@ -45,12 +48,18 @@ public class BasketController {
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         response.addHeader("Access-Control-Expose-Headers", "x-requested-with,content-type,CA-Token,Client-Flag");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with,content-type,CA-Token,Client-Flag,X_Requested_With");
-        List<Person> retlist = this.basketRepository.findByNameAndPhone(person.getName(), person.getPhone());
+        try {
+            lock.tryLock(1, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        List<Person> retlist = this.basketRepository.findByNameAndPhone(person.getName().trim(), person.getPhone().trim());
         if (retlist != null && retlist.size() > 0) {
             return "fail";
         } else {
             person.setCreatetime(new Date());
             this.basketRepository.save(person);
+            lock.unlock();
             return "success";
         }
     }
