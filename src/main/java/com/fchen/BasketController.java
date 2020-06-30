@@ -84,7 +84,7 @@ public class BasketController {
             beginDate = DateUtil.convertString2Date(begintime, DateUtil.DATE_FORMAT1_1);
             endDate = DateUtil.addDate(DateUtil.convertString2Date(endtime, DateUtil.DATE_FORMAT1_1), 1);
         }
-        Sort sort = new Sort(Sort.Direction.DESC, "createtime");
+        Sort sort = new Sort(Sort.Direction.ASC, "createtime");
 //        List<Person> retlist = basketRepository.findAll();
         log.info("query date:{},{}",beginDate,endDate);
         List<Person> retlist = basketRepository.findByCreatetimeBetween(beginDate, endDate, sort);
